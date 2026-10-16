@@ -335,7 +335,7 @@
                     <strong>VIP / Gold</strong>
                 </div>
             </div>
-
+{{-- Tiket --}}
             <div class="ticket-id">
                 <span>Ticket ID</span>
                 <strong>NE-2048</strong>

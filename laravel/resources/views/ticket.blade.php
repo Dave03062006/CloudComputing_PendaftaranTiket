@@ -346,29 +346,47 @@
             <h2>Form Pemesanan Tiket</h2>
             <p>Silakan lengkapi data berikut untuk reservasi kursi Anda.</p>
 
-            <form>
+            @if (session('success'))
+                <div class="summary" role="status">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="summary" role="alert">
+                    <strong>Data belum lengkap.</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('registrations.store') }}">
+                @csrf
                 <div class="row">
                     <div class="field">
                         <label for="name">Nama Lengkap</label>
-                        <input id="name" type="text" value="Ayu Ramadhani">
+                        <input id="name" name="name" type="text" value="{{ old('name', 'Ayu Ramadhani') }}" required>
                     </div>
                     <div class="field">
                         <label for="phone">Nomor HP</label>
-                        <input id="phone" type="tel" value="081234567890">
+                        <input id="phone" name="phone" type="tel" value="{{ old('phone', '081234567890') }}" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="field">
                         <label for="email">Email</label>
-                        <input id="email" type="email" value="ayu@email.com">
+                        <input id="email" name="email" type="email" value="{{ old('email', 'ayu@email.com') }}" required>
                     </div>
                     <div class="field">
-                        <label for="ticket">Jenis Tiket</label>
-                        <select id="ticket">
-                            <option selected>VIP Lounge</option>
-                            <option>Gold Zone</option>
-                            <option>Regular Seat</option>
+                        <label for="ticket_type">Jenis Tiket</label>
+                        <select id="ticket_type" name="ticket_type" required>
+                            <option value="VIP Lounge" @selected(old('ticket_type', 'VIP Lounge') === 'VIP Lounge')>VIP Lounge</option>
+                            <option value="Gold Zone" @selected(old('ticket_type') === 'Gold Zone')>Gold Zone</option>
+                            <option value="Regular Seat" @selected(old('ticket_type') === 'Regular Seat')>Regular Seat</option>
                         </select>
                     </div>
                 </div>
@@ -376,14 +394,14 @@
                 <div class="row">
                     <div class="field">
                         <label for="qty">Jumlah</label>
-                        <input id="qty" type="number" value="2" min="1" max="10">
+                        <input id="qty" name="quantity" type="number" value="{{ old('quantity', 2) }}" min="1" max="10" required>
                     </div>
                     <div class="field">
                         <label for="seat">Kursi</label>
-                        <select id="seat">
-                            <option selected>VIP-12, VIP-13</option>
-                            <option>G-05, G-06</option>
-                            <option>R-21, R-22</option>
+                        <select id="seat" name="seat" required>
+                            <option value="VIP-12, VIP-13" @selected(old('seat', 'VIP-12, VIP-13') === 'VIP-12, VIP-13')>VIP-12, VIP-13</option>
+                            <option value="G-05, G-06" @selected(old('seat') === 'G-05, G-06')>G-05, G-06</option>
+                            <option value="R-21, R-22" @selected(old('seat') === 'R-21, R-22')>R-21, R-22</option>
                         </select>
                     </div>
                 </div>
@@ -409,7 +427,7 @@
                     </div>
                 </div>
 
-                <button class="primary-btn" type="button">Pesan Sekarang</button>
+                <button class="primary-btn" type="submit">Pesan Sekarang</button>
             </form>
         </main>
     </div>

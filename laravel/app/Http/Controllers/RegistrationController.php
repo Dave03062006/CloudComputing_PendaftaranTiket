@@ -27,6 +27,7 @@ class RegistrationController extends Controller
         $registration = Registration::create($validated);
 
         Mail::to($registration->email)->send(new RegistrationEmail($registration));
+        dd("gas");
 
         return to_route('registrations.create')
             ->with('success', 'Pendaftaran tiket berhasil disimpan.');

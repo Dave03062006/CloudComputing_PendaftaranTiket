@@ -142,7 +142,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: 22
         script: |
-          cd /home/ked-tiket1/htdocs/tiket1.ked.my.id/public
+          cd /home/ked-tiket1/htdocs/tiket1-repo/laravel/public
           git pull origin main
           rm -rf vendor
           tar -xzf vendor.tar.gz

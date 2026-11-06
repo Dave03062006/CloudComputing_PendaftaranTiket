@@ -8,6 +8,12 @@ jobs:
   laravel-tests:
     name: Run Tests & Build Assets
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed for the "Commit Built Assets" push
+
+    defaults:
+      run:
+        working-directory: laravel   # Laravel app lives in the laravel/ subfolder
 
     services:
       mysql:
@@ -67,7 +73,7 @@ jobs:
     # Compile frontend production assets (Vite) so they are ready for deployment
     - name: Install NPM Dependencies & Build Assets
       run: |
-        npm ci
+        npm install
         npm run build
 
     # Optional: Push compiled production assets back to Git if your deployment relies on Git integration
@@ -85,6 +91,10 @@ jobs:
     name: Deploy to Live Hosting
     needs: laravel-tests # Ensures deployment only happens if tests pass successfully
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: laravel
 
     steps:
     - name: Checkout Code
@@ -120,8 +130,9 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
         port: 22
-        source: "vendor.tar.gz"
-        target: "/home/hgalih-arielnoah/htdocs/arielnoah.hgalih.my.id"
+        source: "laravel/vendor.tar.gz"
+        strip_components: 1
+        target: "/home/ked-tiket1/htdocs/tiket1-repo/laravel"
 
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v1.2.5

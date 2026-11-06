@@ -133,6 +133,7 @@ jobs:
         script: |
           set -e
           cd /home/ked-tiket1/htdocs/tiket1-repo/laravel
+          git remote set-url origin https://github.com/Dave03062006/CloudComputing_PendaftaranTiket.git
           git pull origin main
           rm -rf vendor
           tar -xzf vendor.tar.gz

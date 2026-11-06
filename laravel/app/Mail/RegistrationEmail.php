@@ -25,7 +25,7 @@ class RegistrationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pendaftaran Tiket Berhasil',
+            subject: 'Your Midnight Echo ticket is confirmed',
         );
     }
 
@@ -35,7 +35,7 @@ class RegistrationEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.registrations.confirmation',
+            view: 'emails.registrations.confirmation',
         );
     }
 

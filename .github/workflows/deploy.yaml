@@ -10,6 +10,10 @@ jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: laravel
+
     services:
       mysql:
         image: mysql:8.0
@@ -42,7 +46,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('laravel/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
@@ -51,7 +55,7 @@ jobs:
 
     - name: Install NPM Dependencies & Build Assets
       run: |
-        npm ci
+        npm install
         npm run build
 
     - name: Generate Application Key
